@@ -1,188 +1,151 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
 
-const HERO_IMAGE = "https://cdn.poehali.dev/projects/40065472-9514-4ebb-9ff6-500f6dad4c8b/files/66fbb653-893a-4e1f-a6a4-84c90d3b0b0f.jpg";
+const HERO_IMAGE =
+  "https://cdn.poehali.dev/projects/40065472-9514-4ebb-9ff6-500f6dad4c8b/files/0ffc50e6-5274-42d0-b451-c50081d7ae40.jpg";
 
 const NAV_ITEMS = [
+  { label: "Направления", href: "#classes" },
   { label: "Расписание", href: "#schedule" },
-  { label: "Классы", href: "#classes" },
   { label: "Цены", href: "#pricing" },
-  { label: "О студии", href: "#about" },
+  { label: "Об Юлии", href: "#about" },
   { label: "Отзывы", href: "#reviews" },
   { label: "Контакты", href: "#contacts" },
 ];
 
 const CLASSES = [
   {
-    name: "Хатха-йога",
-    level: "Все уровни",
-    duration: "60 мин",
-    desc: "Классическая практика, сочетающая асаны и пранаяму. Подходит для начинающих и опытных практиков.",
-    icon: "Sun",
-  },
-  {
-    name: "Аштанга-виньяса",
-    level: "Средний / Продвинутый",
-    duration: "90 мин",
-    desc: "Динамичная последовательность поз с синхронизацией дыхания и движения. Развивает силу и гибкость.",
-    icon: "Flame",
-  },
-  {
-    name: "Инь-йога",
-    level: "Начинающий",
+    id: "womens-health",
+    name: "Женское здоровье",
+    tag: "Гормоны · Цикл · Баланс",
     duration: "75 мин",
-    desc: "Медленная практика с длительными удержаниями поз. Идеальна для восстановления и снятия стресса.",
-    icon: "Moon",
-  },
-  {
-    name: "Йога для начинающих",
-    level: "Начинающий",
-    duration: "60 мин",
-    desc: "Мягкое введение в практику. Основы дыхания, базовые позы и принципы безопасной практики.",
-    icon: "Sprout",
-  },
-  {
-    name: "Медитация",
-    level: "Все уровни",
-    duration: "45 мин",
-    desc: "Техники осознанности и концентрации. Помогает снизить тревожность и улучшить качество сна.",
+    desc: "Практика, выстроенная вокруг физиологии женского тела. Асаны, подобранные по фазам цикла — нормализуют гормональный фон, снимают спазмы, восстанавливают энергию. Метод Айенгара позволяет работать точно, без перегрузки.",
     icon: "Heart",
+    color: "from-rose-50 to-stone-50",
+    accent: "text-rose-500",
+    border: "border-rose-100",
+    details: [
+      "Работа с областью таза и живота",
+      "Перевёрнутые позы для гормонального баланса",
+      "Адаптация под фазу цикла",
+      "Пропсы: одеяла, болстеры, ремни",
+    ],
   },
   {
-    name: "Пренатальная йога",
-    level: "Будущие мамы",
-    duration: "60 мин",
-    desc: "Специальная практика для беременных. Мягкие упражнения для поддержания здоровья мамы и малыша.",
-    icon: "Baby",
+    id: "healthy-back",
+    name: "Здоровая спина",
+    tag: "Позвоночник · Осанка · Сила",
+    duration: "75 мин",
+    desc: "Работа с позвоночником через точное выравнивание. Укрепление мышц-стабилизаторов, снятие компрессии в дисках, коррекция осанки. Подходит при сколиозе, остеохондрозе, протрузиях — под наблюдением Юлии.",
+    icon: "Zap",
+    color: "from-amber-50 to-stone-50",
+    accent: "text-amber-600",
+    border: "border-amber-100",
+    details: [
+      "Декомпрессия позвоночника у стены",
+      "Укрепление паравертебральных мышц",
+      "Работа с шеей и поясницей отдельно",
+      "Ремни, блоки, верёвки",
+    ],
   },
-];
-
-const INSTRUCTORS = [
-  { name: "Анна Соколова", spec: "Хатха, Инь-йога", exp: "8 лет практики" },
-  { name: "Михаил Орлов", spec: "Аштанга, Виньяса", exp: "12 лет практики" },
-  { name: "Елена Лисова", spec: "Медитация, Пренатальная", exp: "6 лет практики" },
+  {
+    id: "body-opening",
+    name: "Раскрытие тела",
+    tag: "Гибкость · Суставы · Свобода",
+    duration: "90 мин",
+    desc: "Глубокая работа с фасциями и суставами. Долгие удержания в поддерживаемых позах раскрывают бёдра, грудной отдел, плечи. Ощущение лёгкости и пространства в теле после каждого занятия.",
+    icon: "Flower2",
+    color: "from-teal-50 to-stone-50",
+    accent: "text-teal-600",
+    border: "border-teal-100",
+    details: [
+      "Долгие удержания 3–5 минут",
+      "Поддерживаемые позы на болстерах",
+      "Раскрытие тазобедренных суставов",
+      "Грудной отдел и плечи",
+    ],
+  },
 ];
 
 const SCHEDULE = [
-  { day: "Пн", time: "07:30", class: "Хатха-йога", instructor: "Анна", spots: 3 },
-  { day: "Пн", time: "10:00", class: "Йога для начинающих", instructor: "Елена", spots: 6 },
-  { day: "Пн", time: "19:00", class: "Медитация", instructor: "Елена", spots: 8 },
-  { day: "Вт", time: "07:30", class: "Аштанга-виньяса", instructor: "Михаил", spots: 2 },
-  { day: "Вт", time: "12:00", class: "Инь-йога", instructor: "Анна", spots: 5 },
-  { day: "Вт", time: "19:30", class: "Хатха-йога", instructor: "Михаил", spots: 4 },
-  { day: "Ср", time: "07:30", class: "Медитация", instructor: "Елена", spots: 7 },
-  { day: "Ср", time: "10:00", class: "Пренатальная йога", instructor: "Елена", spots: 4 },
-  { day: "Ср", time: "19:00", class: "Аштанга-виньяса", instructor: "Михаил", spots: 0 },
-  { day: "Чт", time: "07:30", class: "Хатха-йога", instructor: "Анна", spots: 5 },
-  { day: "Чт", time: "19:30", class: "Инь-йога", instructor: "Анна", spots: 6 },
-  { day: "Пт", time: "07:30", class: "Аштанга-виньяса", instructor: "Михаил", spots: 3 },
-  { day: "Пт", time: "10:00", class: "Йога для начинающих", instructor: "Елена", spots: 8 },
-  { day: "Пт", time: "19:00", class: "Хатха-йога", instructor: "Анна", spots: 2 },
-  { day: "Сб", time: "09:00", class: "Хатха-йога", instructor: "Михаил", spots: 1 },
-  { day: "Сб", time: "11:00", class: "Медитация", instructor: "Елена", spots: 9 },
-  { day: "Вс", time: "10:00", class: "Инь-йога", instructor: "Анна", spots: 5 },
-  { day: "Вс", time: "12:00", class: "Пренатальная йога", instructor: "Елена", spots: 3 },
+  { day: "Пн", time: "09:00", class: "Женское здоровье", spots: 4 },
+  { day: "Пн", time: "19:00", class: "Здоровая спина", spots: 3 },
+  { day: "Вт", time: "10:00", class: "Раскрытие тела", spots: 5 },
+  { day: "Вт", time: "19:30", class: "Женское здоровье", spots: 2 },
+  { day: "Ср", time: "09:00", class: "Здоровая спина", spots: 6 },
+  { day: "Ср", time: "19:00", class: "Раскрытие тела", spots: 4 },
+  { day: "Чт", time: "10:00", class: "Женское здоровье", spots: 0 },
+  { day: "Чт", time: "19:30", class: "Здоровая спина", spots: 5 },
+  { day: "Пт", time: "09:00", class: "Раскрытие тела", spots: 3 },
+  { day: "Пт", time: "19:00", class: "Женское здоровье", spots: 4 },
+  { day: "Сб", time: "10:00", class: "Здоровая спина", spots: 7 },
+  { day: "Сб", time: "12:00", class: "Раскрытие тела", spots: 5 },
+  { day: "Вс", time: "11:00", class: "Женское здоровье", spots: 3 },
 ];
 
 const PRICES = [
   {
     name: "Пробное занятие",
-    price: "500 ₽",
-    desc: "Один раз, любой класс",
-    features: ["Любой класс по выбору", "Без предоплаты", "Коврик включён"],
+    price: "800 ₽",
+    desc: "Любое направление",
+    features: ["Одно занятие на выбор", "Все пропсы включены", "Консультация Юлии"],
     highlight: false,
   },
   {
-    name: "Абонемент 8 занятий",
-    price: "5 600 ₽",
-    desc: "700 ₽ за занятие · 2 месяца",
-    features: ["Все классы", "2 месяца действия", "Перенос занятий", "Коврик включён"],
+    name: "8 занятий",
+    price: "7 200 ₽",
+    desc: "900 ₽ за занятие · 2 месяца",
+    features: ["Любое направление", "2 месяца действия", "Перенос занятий", "Все пропсы"],
     highlight: true,
   },
   {
-    name: "Абонемент 16 занятий",
-    price: "9 600 ₽",
-    desc: "600 ₽ за занятие · 3 месяца",
-    features: ["Все классы", "3 месяца действия", "Перенос занятий", "Приоритетная запись", "Коврик включён"],
-    highlight: false,
-  },
-  {
-    name: "Безлимит",
-    price: "12 000 ₽",
-    desc: "В месяц · Неограниченно",
-    features: ["Все классы без ограничений", "Консультация инструктора", "Приоритетная запись", "Коврик включён"],
+    name: "16 занятий",
+    price: "12 800 ₽",
+    desc: "800 ₽ за занятие · 3 месяца",
+    features: ["Любое направление", "3 месяца действия", "Перенос занятий", "Приоритетная запись"],
     highlight: false,
   },
 ];
 
 const REVIEWS = [
   {
-    name: "Марина К.",
-    text: "Пришла в студию совсем новичком — боялась, что будет тяжело. Анна так мягко ввела в практику, что уже через месяц я не могу представить жизни без йоги.",
-    rating: 5,
+    name: "Светлана О.",
+    text: "Пришла с хроническими болями в пояснице. После 2 месяцев занятий по программе «Здоровая спина» боли ушли. Юля очень внимательно следит за выравниванием — каждый раз новые открытия.",
+    since: "Практикую 7 месяцев",
+    dir: "Здоровая спина",
+  },
+  {
+    name: "Анна М.",
+    text: "«Женское здоровье» — это то, чего мне не хватало годами. Цикл выровнялся, настроение стабильнее. Юлия объясняет связь поз с физиологией, это меняет отношение к практике.",
     since: "Практикую 1 год",
+    dir: "Женское здоровье",
   },
   {
-    name: "Дмитрий В.",
-    text: "Михаил — невероятный преподаватель. Точные корректировки, внимание к каждому студенту. Аштанга с ним — это вызов и кайф одновременно.",
-    rating: 5,
+    name: "Мария В.",
+    text: "Занятия по раскрытию тела — медитативный опыт. Долгие удержания поначалу пугали, сейчас это моё любимое время недели. Тело стало другим — живым и свободным.",
+    since: "Практикую 4 месяца",
+    dir: "Раскрытие тела",
+  },
+  {
+    name: "Екатерина Р.",
+    text: "Метод Айенгара — это про точность, а не про скорость. Юля передаёт именно это. Каждая поза — исследование. Рекомендую всем, кто ищет осознанную практику.",
     since: "Практикую 2 года",
-  },
-  {
-    name: "Ольга М.",
-    text: "Пренатальная йога с Еленой — лучшее, что я сделала в беременность. Легкость, спокойствие, поддержка. Рекомендую всем будущим мамам.",
-    rating: 5,
-    since: "Практикую 6 месяцев",
-  },
-  {
-    name: "Алексей Р.",
-    text: "Ходил на медитацию скептически. Сейчас это мой обязательный ритуал каждую среду. Стресс уходит уже на первых минутах практики.",
-    rating: 5,
-    since: "Практикую 8 месяцев",
-  },
-];
-
-const CONTRAINDICATIONS = [
-  "Острые воспалительные процессы",
-  "Тяжёлые заболевания сердца и сосудов",
-  "Высокое артериальное давление",
-  "Онкологические заболевания",
-  "Недавние операции (менее 6 месяцев)",
-  "Психические расстройства в острой фазе",
-  "Грыжи межпозвоночных дисков (без разрешения врача)",
-  "Температура и инфекционные болезни",
-];
-
-const BEGINNER_TIPS = [
-  {
-    icon: "CheckCircle",
-    title: "Не нужна подготовка",
-    text: "Йога подходит людям любого возраста и уровня физической формы. Начните с класса для новичков.",
-  },
-  {
-    icon: "Clock",
-    title: "Придите за 15 минут",
-    text: "Чтобы переодеться, познакомиться с инструктором и настроиться на практику.",
-  },
-  {
-    icon: "Package",
-    title: "Возьмите с собой",
-    text: "Удобную одежду и воду. Коврик, блоки и ремни предоставляет студия.",
-  },
-  {
-    icon: "Utensils",
-    title: "Не ешьте перед практикой",
-    text: "Последний приём пищи — за 2–3 часа до занятия. Лёгкий перекус — за 1 час.",
+    dir: "Здоровая спина",
   },
 ];
 
 const DAYS = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 
+const CLASS_COLORS: Record<string, string> = {
+  "Женское здоровье": "bg-rose-50 text-rose-700 border-rose-200",
+  "Здоровая спина": "bg-amber-50 text-amber-700 border-amber-200",
+  "Раскрытие тела": "bg-teal-50 text-teal-700 border-teal-200",
+};
+
 interface ScheduleSlot {
   day: string;
   time: string;
   class: string;
-  instructor: string;
   spots: number;
 }
 
@@ -193,6 +156,7 @@ export default function Index() {
   const [selectedSlot, setSelectedSlot] = useState<ScheduleSlot | null>(null);
   const [form, setForm] = useState({ name: "", phone: "", comment: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [expandedClass, setExpandedClass] = useState<string | null>(null);
 
   const filteredSchedule = SCHEDULE.filter((s) => s.day === activeDay);
 
@@ -211,11 +175,13 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+
       {/* NAVBAR */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <a href="#" className="font-cormorant text-2xl font-light tracking-[0.15em] text-foreground">
-            ПРАНА
+          <a href="#" className="flex flex-col leading-none">
+            <span className="font-cormorant text-xl font-light tracking-[0.12em] text-foreground">ЮЛИЯ ПАНФИЛОВА</span>
+            <span className="font-golos text-[10px] tracking-[0.2em] text-muted-foreground uppercase mt-0.5">Йога по методу Айенгара</span>
           </a>
           <nav className="hidden md:flex items-center gap-8">
             {NAV_ITEMS.map((item) => (
@@ -230,33 +196,33 @@ export default function Index() {
           </nav>
           <a
             href="#schedule"
-            className="hidden md:block bg-primary text-primary-foreground px-5 py-2 text-sm font-golos font-light tracking-wide hover:opacity-90 transition-opacity"
+            className="hidden md:inline-flex font-golos text-sm bg-primary text-primary-foreground px-5 py-2 tracking-wide hover:opacity-90 transition-opacity"
           >
             Записаться
           </a>
           <button
-            className="md:hidden"
+            className="md:hidden p-2"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            <Icon name={mobileMenuOpen ? "X" : "Menu"} size={22} />
+            <Icon name={mobileMenuOpen ? "X" : "Menu"} size={22} className="text-foreground" />
           </button>
         </div>
         {mobileMenuOpen && (
-          <div className="md:hidden bg-background border-t border-border px-6 py-4 flex flex-col gap-4 animate-fade-in">
+          <div className="md:hidden bg-background border-t border-border px-6 py-4 flex flex-col gap-4">
             {NAV_ITEMS.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="font-golos text-sm text-muted-foreground hover:text-foreground transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
+                className="font-golos text-sm font-light text-muted-foreground hover:text-foreground transition-colors"
               >
                 {item.label}
               </a>
             ))}
             <a
               href="#schedule"
-              className="bg-primary text-primary-foreground px-5 py-2 text-sm font-golos text-center"
               onClick={() => setMobileMenuOpen(false)}
+              className="font-golos text-sm bg-primary text-primary-foreground px-5 py-2.5 text-center tracking-wide"
             >
               Записаться
             </a>
@@ -265,238 +231,327 @@ export default function Index() {
       </header>
 
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center pt-16">
+      <section className="relative min-h-screen flex items-end pt-16">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${HERO_IMAGE})` }}
         />
-        <div className="absolute inset-0 bg-foreground/45" />
-        <div className="relative z-10 max-w-6xl mx-auto px-6 py-24">
-          <p className="font-golos text-sm font-light tracking-[0.3em] text-white/70 mb-6 animate-fade-in-up opacity-0">
-            СТУДИЯ ЙОГИ · МОСКВА
-          </p>
-          <h1 className="font-cormorant text-6xl md:text-8xl font-light text-white leading-[1.05] mb-8 animate-fade-in-up opacity-0 delay-100">
-            Найдите баланс
-            <br />
-            <em>внутри себя</em>
-          </h1>
-          <p className="font-golos text-lg font-light text-white/80 max-w-md mb-12 animate-fade-in-up opacity-0 delay-200">
-            Мягкие и динамичные практики для всех уровней подготовки. Опытные инструкторы, уютное пространство.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up opacity-0 delay-300">
-            <a
-              href="#schedule"
-              className="bg-white text-foreground px-8 py-4 font-golos text-sm tracking-wide hover:bg-white/90 transition-colors text-center"
-            >
-              Записаться на занятие
-            </a>
-            <a
-              href="#classes"
-              className="border border-white/60 text-white px-8 py-4 font-golos text-sm tracking-wide hover:border-white transition-colors text-center"
-            >
-              Узнать о классах
-            </a>
-          </div>
-        </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <Icon name="ChevronDown" size={24} className="text-white/50" />
-        </div>
-      </section>
-
-      {/* STATS */}
-      <section className="bg-secondary py-16 border-y border-border">
-        <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[
-            { num: "6", label: "направлений йоги" },
-            { num: "3", label: "опытных инструктора" },
-            { num: "200+", label: "постоянных практиков" },
-            { num: "5 лет", label: "работаем в Москве" },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <div className="font-cormorant text-5xl font-light text-primary mb-2">{stat.num}</div>
-              <div className="font-golos text-sm font-light text-muted-foreground tracking-wide">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CLASSES */}
-      <section id="classes" className="py-24">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-16">
-            <p className="font-golos text-xs tracking-[0.3em] text-accent mb-3 uppercase">Направления</p>
-            <h2 className="font-cormorant text-5xl font-light text-foreground">Наши классы</h2>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {CLASSES.map((cls) => (
-              <div
-                key={cls.name}
-                className="border border-border p-8 hover:border-primary/40 transition-colors group bg-card"
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 via-foreground/30 to-foreground/10" />
+        <div className="relative z-10 max-w-6xl mx-auto px-6 pb-20 w-full">
+          <div className="max-w-2xl animate-fade-in-up">
+            <p className="font-golos text-xs tracking-[0.3em] text-white/60 uppercase mb-6">
+              Метод Айенгара · Москва
+            </p>
+            <h1 className="font-cormorant text-5xl md:text-7xl font-light text-white leading-[1.1] mb-6">
+              Йога, которая<br />
+              <em className="not-italic font-normal">меняет тело</em><br />
+              изнутри
+            </h1>
+            <p className="font-golos text-base md:text-lg font-light text-white/75 mb-10 max-w-lg leading-relaxed">
+              Три направления — женское здоровье, здоровая спина, раскрытие тела. 
+              Точная работа с выравниванием. Индивидуальный подход Юлии Панфиловой.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="#classes"
+                className="font-golos text-sm bg-white text-foreground px-8 py-3.5 tracking-wide hover:bg-white/90 transition-all"
               >
-                <div className="flex items-start justify-between mb-6">
-                  <Icon name={cls.icon} size={28} className="text-accent" fallback="Star" />
-                  <span className="font-golos text-xs text-muted-foreground tracking-wide">{cls.duration}</span>
-                </div>
-                <h3 className="font-cormorant text-2xl font-light mb-2 group-hover:text-primary transition-colors">
-                  {cls.name}
-                </h3>
-                <p className="font-golos text-xs text-accent mb-4 tracking-wide">{cls.level}</p>
-                <p className="font-golos text-sm font-light text-muted-foreground leading-relaxed">{cls.desc}</p>
+                Выбрать направление
+              </a>
+              <a
+                href="#about"
+                className="font-golos text-sm border border-white/50 text-white px-8 py-3.5 tracking-wide hover:border-white transition-all"
+              >
+                Об Юлии
+              </a>
+            </div>
+          </div>
+        </div>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 right-8 flex flex-col items-center gap-2 opacity-50">
+          <span className="font-golos text-xs tracking-widest text-white rotate-90 mb-2">SCROLL</span>
+          <div className="w-px h-16 bg-white/40 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-white animate-[slideDown_2s_ease-in-out_infinite]" />
+          </div>
+        </div>
+      </section>
+
+      {/* METHOD STRIP */}
+      <section className="bg-primary text-primary-foreground py-12">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 md:divide-x divide-primary-foreground/20">
+            {[
+              { num: "01", title: "Точное выравнивание", text: "Каждая поза разбирается детально — от стопы до макушки. Проп помогает телу найти правильное положение без усилия." },
+              { num: "02", title: "Пропсы Айенгара", text: "Блоки, ремни, болстеры, одеяла, верёвки — делают практику доступной и терапевтически точной для любого тела." },
+              { num: "03", title: "Терапевтический эффект", text: "Метод работает с причиной дискомфорта, а не симптомом. Результат накапливается и остаётся надолго." },
+            ].map((item) => (
+              <div key={item.num} className="md:px-10 first:pl-0 last:pr-0">
+                <div className="font-cormorant text-4xl font-light opacity-30 mb-3">{item.num}</div>
+                <div className="font-cormorant text-xl font-light mb-2">{item.title}</div>
+                <div className="font-golos text-sm font-light opacity-70 leading-relaxed">{item.text}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FOR BEGINNERS */}
-      <section id="beginners" className="py-24 bg-secondary border-y border-border">
+      {/* CLASSES */}
+      <section id="classes" className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-16">
-            <p className="font-golos text-xs tracking-[0.3em] text-accent mb-3 uppercase">Первый раз</p>
-            <h2 className="font-cormorant text-5xl font-light">Для начинающих</h2>
+          <div className="mb-14">
+            <p className="font-golos text-xs tracking-[0.3em] text-muted-foreground uppercase mb-3">Направления</p>
+            <h2 className="font-cormorant text-4xl md:text-5xl font-light">Три пути к здоровью</h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-10">
-            <div className="space-y-8">
-              {BEGINNER_TIPS.map((tip) => (
-                <div key={tip.title} className="flex gap-5">
-                  <div className="flex-shrink-0 mt-1">
-                    <Icon name={tip.icon} size={20} className="text-accent" fallback="Check" />
-                  </div>
-                  <div>
-                    <h4 className="font-cormorant text-xl font-light mb-1">{tip.title}</h4>
-                    <p className="font-golos text-sm font-light text-muted-foreground leading-relaxed">{tip.text}</p>
-                  </div>
+
+          <div className="space-y-4">
+            {CLASSES.map((cls) => {
+              const isOpen = expandedClass === cls.id;
+              return (
+                <div
+                  key={cls.id}
+                  className={`border ${cls.border} bg-gradient-to-br ${cls.color} transition-all duration-500`}
+                >
+                  <button
+                    className="w-full text-left px-8 py-8 flex items-start justify-between gap-6"
+                    onClick={() => setExpandedClass(isOpen ? null : cls.id)}
+                  >
+                    <div className="flex items-start gap-6 flex-1">
+                      <div className={`mt-1 flex-shrink-0 ${cls.accent}`}>
+                        <Icon name={cls.icon} size={24} fallback="Star" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex flex-wrap items-baseline gap-3 mb-2">
+                          <h3 className="font-cormorant text-2xl md:text-3xl font-light">{cls.name}</h3>
+                          <span className="font-golos text-xs tracking-widest text-muted-foreground uppercase">{cls.tag}</span>
+                        </div>
+                        <p className="font-golos text-sm font-light text-muted-foreground leading-relaxed max-w-2xl">{cls.desc}</p>
+                      </div>
+                    </div>
+                    <div className="flex-shrink-0 flex flex-col items-end gap-3">
+                      <span className="font-cormorant text-lg font-light text-muted-foreground">{cls.duration}</span>
+                      <Icon
+                        name={isOpen ? "ChevronUp" : "ChevronDown"}
+                        size={18}
+                        className="text-muted-foreground"
+                      />
+                    </div>
+                  </button>
+
+                  {isOpen && (
+                    <div className="px-8 pb-8 border-t border-border/30 pt-6 animate-fade-in">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 ml-12">
+                        {cls.details.map((d) => (
+                          <div key={d} className="flex items-start gap-3">
+                            <div className={`mt-1.5 w-1 h-1 rounded-full flex-shrink-0 ${cls.accent.replace("text-", "bg-")}`} />
+                            <span className="font-golos text-sm font-light text-foreground/80">{d}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="ml-12 mt-6">
+                        <a
+                          href="#schedule"
+                          className="font-golos text-sm bg-primary text-primary-foreground px-6 py-2.5 inline-flex items-center gap-2 hover:opacity-90 transition-opacity"
+                        >
+                          Записаться
+                          <Icon name="ArrowRight" size={14} />
+                        </a>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              ))}
-            </div>
-            <div className="bg-card border border-border p-8">
-              <h3 className="font-cormorant text-3xl font-light mb-4">Пробное занятие</h3>
-              <p className="font-golos text-sm font-light text-muted-foreground mb-6 leading-relaxed">
-                Мы приглашаем вас на первое пробное занятие за 500 ₽. Вы познакомитесь с инструктором, попробуете практику и зададите все вопросы.
-              </p>
-              <div className="font-cormorant text-5xl font-light text-primary mb-6">500 ₽</div>
-              <a
-                href="#schedule"
-                className="block w-full bg-primary text-primary-foreground text-center py-3 font-golos text-sm tracking-wide hover:opacity-90 transition-opacity"
-              >
-                Записаться на пробное
-              </a>
-            </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* SCHEDULE */}
-      <section id="schedule" className="py-24">
+      <section id="schedule" className="py-24 bg-secondary/30">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-12">
-            <p className="font-golos text-xs tracking-[0.3em] text-accent mb-3 uppercase">Онлайн-запись</p>
-            <h2 className="font-cormorant text-5xl font-light mb-4">Расписание занятий</h2>
-            <p className="font-golos text-sm font-light text-muted-foreground">
-              Выберите день недели и запишитесь на удобное занятие
-            </p>
+            <p className="font-golos text-xs tracking-[0.3em] text-muted-foreground uppercase mb-3">Расписание</p>
+            <h2 className="font-cormorant text-4xl md:text-5xl font-light">Занятия на неделю</h2>
           </div>
 
-          <div className="flex gap-1 mb-8 overflow-x-auto pb-2">
-            {DAYS.map((day) => (
-              <button
-                key={day}
-                onClick={() => setActiveDay(day)}
-                className={`flex-shrink-0 px-5 py-2 font-golos text-sm tracking-wide transition-colors ${
-                  activeDay === day
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:text-foreground border border-border"
-                }`}
-              >
-                {day}
-              </button>
-            ))}
-          </div>
-
-          <div className="space-y-3">
-            {filteredSchedule.length === 0 ? (
-              <div className="text-center py-16 text-muted-foreground font-golos text-sm">
-                В этот день занятий нет
-              </div>
-            ) : (
-              filteredSchedule.map((slot, i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-between p-5 border border-border bg-card hover:border-primary/30 transition-colors"
+          {/* Day tabs */}
+          <div className="flex gap-1 mb-8 border-b border-border overflow-x-auto">
+            {DAYS.map((day) => {
+              const hasClasses = SCHEDULE.some((s) => s.day === day);
+              return (
+                <button
+                  key={day}
+                  onClick={() => setActiveDay(day)}
+                  className={`font-golos text-sm px-5 py-3 flex-shrink-0 transition-all border-b-2 -mb-px ${
+                    activeDay === day
+                      ? "border-primary text-foreground font-normal"
+                      : `border-transparent text-muted-foreground hover:text-foreground ${!hasClasses ? "opacity-40" : ""}`
+                  }`}
                 >
-                  <div className="flex items-center gap-6">
-                    <span className="font-cormorant text-2xl font-light text-primary w-16">{slot.time}</span>
-                    <div>
-                      <div className="font-cormorant text-xl font-light mb-0.5">{slot.class}</div>
-                      <div className="font-golos text-xs text-muted-foreground">{slot.instructor}</div>
+                  {day}
+                </button>
+              );
+            })}
+          </div>
+
+          {filteredSchedule.length === 0 ? (
+            <div className="text-center py-16 text-muted-foreground font-golos font-light">
+              В этот день занятий нет
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {filteredSchedule.map((slot, i) => {
+                const colorClass = CLASS_COLORS[slot.class] || "bg-stone-50 text-stone-700 border-stone-200";
+                return (
+                  <div
+                    key={i}
+                    className="flex items-center justify-between bg-background px-6 py-5 border border-border hover:border-primary/30 transition-all group"
+                  >
+                    <div className="flex items-center gap-6">
+                      <span className="font-cormorant text-2xl font-light text-muted-foreground w-16">{slot.time}</span>
+                      <div>
+                        <span className={`inline-block font-golos text-xs px-2.5 py-0.5 border rounded-sm mb-1 ${colorClass}`}>
+                          {slot.class}
+                        </span>
+                        <div className="font-golos text-xs text-muted-foreground">
+                          {slot.spots === 0 ? "Мест нет" : `Осталось мест: ${slot.spots}`}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <span className={`font-golos text-xs ${slot.spots === 0 ? "text-destructive" : slot.spots <= 2 ? "text-accent" : "text-muted-foreground"}`}>
-                      {slot.spots === 0 ? "Мест нет" : `${slot.spots} мест`}
-                    </span>
                     <button
                       onClick={() => handleBook(slot)}
                       disabled={slot.spots === 0}
-                      className={`px-5 py-2 font-golos text-sm tracking-wide transition-colors ${
+                      className={`font-golos text-sm px-6 py-2.5 transition-all ${
                         slot.spots === 0
-                          ? "bg-muted text-muted-foreground cursor-not-allowed"
-                          : "bg-primary text-primary-foreground hover:opacity-90"
+                          ? "text-muted-foreground border border-border cursor-not-allowed opacity-50"
+                          : "bg-primary text-primary-foreground hover:opacity-90 group-hover:px-8"
                       }`}
                     >
-                      Записаться
+                      {slot.spots === 0 ? "Занято" : "Записаться"}
                     </button>
                   </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ABOUT */}
+      <section id="about" className="py-24 bg-background">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+            <div>
+              <p className="font-golos text-xs tracking-[0.3em] text-muted-foreground uppercase mb-3">Об инструкторе</p>
+              <h2 className="font-cormorant text-4xl md:text-5xl font-light mb-8">
+                Юлия<br />Панфилова
+              </h2>
+              <div className="space-y-5 font-golos font-light text-muted-foreground leading-relaxed">
+                <p>
+                  Сертифицированный преподаватель йоги по методу Айенгара. 
+                  Более 10 лет личной практики и 6 лет преподавания. Прошла обучение 
+                  у ведущих учителей в России и Индии (Пуна, институт Айенгара).
+                </p>
+                <p>
+                  Специализируется на работе с женским здоровьем и терапевтическими 
+                  программами для спины. Считает, что йога — это прежде всего диалог 
+                  с собственным телом, а не соревнование с чужими возможностями.
+                </p>
+                <p>
+                  Каждое занятие строится индивидуально: Юлия видит и корректирует 
+                  каждого в группе, предлагает варианты поз под особенности тела.
+                </p>
+              </div>
+
+              <div className="mt-10 grid grid-cols-3 gap-6 border-t border-border pt-8">
+                {[
+                  { val: "10+", label: "лет практики" },
+                  { val: "6", label: "лет преподавания" },
+                  { val: "200+", label: "учеников" },
+                ].map((stat) => (
+                  <div key={stat.label}>
+                    <div className="font-cormorant text-4xl font-light text-primary">{stat.val}</div>
+                    <div className="font-golos text-xs text-muted-foreground mt-1">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="font-golos text-xs tracking-[0.2em] text-muted-foreground uppercase mb-6">Метод Айенгара — это</div>
+              {[
+                { icon: "Focus", title: "Точность в каждой позе", text: "Б.К.С. Айенгар разработал систему выравнивания, где важна каждая деталь — положение пальцев, угол бедра, направление взгляда." },
+                { icon: "Package", title: "Пропсы как инструмент", text: "Вспомогательные предметы — не костыли, а способ дать телу правильный опыт ощущений без компромиссов с выравниванием." },
+                { icon: "Activity", title: "Терапевтический подход", text: "Метод признан в медицинском сообществе. Используется при реабилитации после травм, при хронических заболеваниях." },
+                { icon: "Infinity", title: "Практика без ограничений по возрасту", text: "Айенгар преподавал до 95 лет. Метод адаптируется под любое тело и любой возраст." },
+              ].map((item) => (
+                <div key={item.title} className="flex gap-5 p-5 border border-border hover:border-primary/30 transition-colors">
+                  <div className="flex-shrink-0 mt-0.5 text-accent">
+                    <Icon name={item.icon} size={18} fallback="Star" />
+                  </div>
+                  <div>
+                    <div className="font-cormorant text-lg font-light mb-1">{item.title}</div>
+                    <div className="font-golos text-sm font-light text-muted-foreground leading-relaxed">{item.text}</div>
+                  </div>
                 </div>
-              ))
-            )}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* PRICING */}
-      <section id="pricing" className="py-24 bg-secondary border-y border-border">
+      <section id="pricing" className="py-24 bg-secondary/30">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-16">
-            <p className="font-golos text-xs tracking-[0.3em] text-accent mb-3 uppercase">Стоимость</p>
-            <h2 className="font-cormorant text-5xl font-light">Абонементы</h2>
+          <div className="mb-14">
+            <p className="font-golos text-xs tracking-[0.3em] text-muted-foreground uppercase mb-3">Стоимость</p>
+            <h2 className="font-cormorant text-4xl md:text-5xl font-light">Абонементы</h2>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {PRICES.map((plan) => (
               <div
                 key={plan.name}
-                className={`p-8 border flex flex-col ${
+                className={`p-8 flex flex-col relative ${
                   plan.highlight
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-card border-border"
-                }`}
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-background border border-border hover:border-primary/30"
+                } transition-all`}
               >
-                <div className="mb-6">
-                  <h3 className={`font-cormorant text-xl font-light mb-1 ${plan.highlight ? "text-primary-foreground" : "text-foreground"}`}>
-                    {plan.name}
-                  </h3>
-                  <p className={`font-golos text-xs ${plan.highlight ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
-                    {plan.desc}
-                  </p>
+                {plan.highlight && (
+                  <div className="absolute top-0 right-0 font-golos text-xs px-3 py-1 bg-accent text-white tracking-wide">
+                    Популярный
+                  </div>
+                )}
+                <div className="font-golos text-xs tracking-widest uppercase mb-4 opacity-60">{plan.name}</div>
+                <div className="font-cormorant text-4xl font-light mb-1">{plan.price}</div>
+                <div className={`font-golos text-xs mb-8 ${plan.highlight ? "opacity-60" : "text-muted-foreground"}`}>
+                  {plan.desc}
                 </div>
-                <div className={`font-cormorant text-4xl font-light mb-8 ${plan.highlight ? "text-primary-foreground" : "text-primary"}`}>
-                  {plan.price}
-                </div>
-                <ul className="space-y-2 mb-8 flex-1">
+                <ul className="space-y-3 flex-1 mb-8">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2">
-                      <Icon name="Check" size={14} className={plan.highlight ? "text-primary-foreground/70" : "text-accent"} />
-                      <span className={`font-golos text-sm font-light ${plan.highlight ? "text-primary-foreground/90" : "text-muted-foreground"}`}>
+                    <li key={f} className="flex items-start gap-2.5">
+                      <Icon
+                        name="Check"
+                        size={14}
+                        className={`flex-shrink-0 mt-0.5 ${plan.highlight ? "opacity-70" : "text-accent"}`}
+                      />
+                      <span className={`font-golos text-sm font-light ${plan.highlight ? "opacity-80" : "text-muted-foreground"}`}>
                         {f}
                       </span>
                     </li>
                   ))}
                 </ul>
                 <button
-                  className={`w-full py-3 font-golos text-sm tracking-wide transition-opacity hover:opacity-90 ${
+                  onClick={() => {
+                    setSelectedSlot(null);
+                    setBookingOpen(true);
+                    setSubmitted(false);
+                    setForm({ name: "", phone: "", comment: "" });
+                  }}
+                  className={`font-golos text-sm py-3 tracking-wide transition-all ${
                     plan.highlight
-                      ? "bg-primary-foreground text-primary"
-                      : "bg-primary text-primary-foreground"
+                      ? "bg-primary-foreground text-primary hover:opacity-90"
+                      : "border border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                   }`}
                 >
                   Выбрать
@@ -504,118 +559,39 @@ export default function Index() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* ABOUT */}
-      <section id="about" className="py-24">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="font-golos text-xs tracking-[0.3em] text-accent mb-3 uppercase">О нас</p>
-              <h2 className="font-cormorant text-5xl font-light mb-8 leading-tight">
-                Место, где начинается
-                <br />
-                <em>ваша практика</em>
-              </h2>
-              <div className="space-y-4 font-golos text-sm font-light text-muted-foreground leading-relaxed">
-                <p>
-                  Студия «Прана» открылась в 2019 году с простой идеей: создать место, где каждый сможет найти свою практику. Не важно, 20 вам лет или 60, занимались ли вы спортом или никогда — йога здесь для всех.
-                </p>
-                <p>
-                  Наши инструкторы прошли обучение в ведущих школах России и Индии. Каждый из них — практикующий йог, который по-настоящему любит своё дело и умеет передавать это ученикам.
-                </p>
-                <p>
-                  Небольшие группы (максимум 12 человек), индивидуальный подход и тёплая атмосфера — вот что отличает нас.
-                </p>
-              </div>
-            </div>
-            <div className="space-y-4">
-              {INSTRUCTORS.map((ins) => (
-                <div key={ins.name} className="flex items-center gap-5 p-6 border border-border bg-card">
-                  <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center flex-shrink-0">
-                    <Icon name="User" size={20} className="text-muted-foreground" />
-                  </div>
-                  <div>
-                    <div className="font-cormorant text-xl font-light">{ins.name}</div>
-                    <div className="font-golos text-xs text-accent">{ins.spec}</div>
-                    <div className="font-golos text-xs text-muted-foreground mt-0.5">{ins.exp}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <p className="mt-6 font-golos text-xs text-muted-foreground text-center">
+            Все абонементы действуют на любое из трёх направлений. Перенос занятий при уведомлении за 12 часов.
+          </p>
         </div>
       </section>
 
       {/* REVIEWS */}
-      <section id="reviews" className="py-24 bg-secondary border-y border-border">
+      <section id="reviews" className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-16">
-            <p className="font-golos text-xs tracking-[0.3em] text-accent mb-3 uppercase">Отзывы</p>
-            <h2 className="font-cormorant text-5xl font-light">Говорят практики</h2>
+          <div className="mb-14">
+            <p className="font-golos text-xs tracking-[0.3em] text-muted-foreground uppercase mb-3">Отзывы</p>
+            <h2 className="font-cormorant text-4xl md:text-5xl font-light">Что говорят ученики</h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {REVIEWS.map((r) => (
-              <div key={r.name} className="bg-card border border-border p-8">
-                <div className="flex mb-4">
-                  {Array.from({ length: r.rating }).map((_, i) => (
-                    <Icon key={i} name="Star" size={14} className="text-accent" />
-                  ))}
-                </div>
-                <p className="font-cormorant text-xl font-light italic text-foreground mb-6 leading-relaxed">
-                  «{r.text}»
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {REVIEWS.map((review, i) => (
+              <div key={i} className="p-8 border border-border hover:border-primary/30 transition-all group">
+                <div className="font-cormorant text-4xl font-light text-muted-foreground/30 mb-4 leading-none">"</div>
+                <p className="font-golos text-sm font-light leading-relaxed text-foreground/80 mb-6">
+                  {review.text}
                 </p>
-                <div className="flex items-center justify-between">
-                  <span className="font-golos text-sm font-light text-foreground">{r.name}</span>
-                  <span className="font-golos text-xs text-muted-foreground">{r.since}</span>
+                <div className="flex items-end justify-between pt-4 border-t border-border">
+                  <div>
+                    <div className="font-cormorant text-lg font-light">{review.name}</div>
+                    <div className="font-golos text-xs text-muted-foreground">{review.since}</div>
+                  </div>
+                  <span className={`font-golos text-xs px-2.5 py-1 rounded-sm border ${CLASS_COLORS[review.dir] || ""}`}>
+                    {review.dir}
+                  </span>
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CONTRAINDICATIONS & RULES */}
-      <section id="rules" className="py-24">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16">
-            <div>
-              <p className="font-golos text-xs tracking-[0.3em] text-accent mb-3 uppercase">Важно знать</p>
-              <h2 className="font-cormorant text-4xl font-light mb-8">Противопоказания</h2>
-              <p className="font-golos text-sm font-light text-muted-foreground mb-6 leading-relaxed">
-                При наличии любого из перечисленных состояний обязательно проконсультируйтесь с врачом перед началом практики.
-              </p>
-              <ul className="space-y-3">
-                {CONTRAINDICATIONS.map((c) => (
-                  <li key={c} className="flex items-start gap-3">
-                    <Icon name="AlertCircle" size={16} className="text-accent flex-shrink-0 mt-0.5" />
-                    <span className="font-golos text-sm font-light text-muted-foreground">{c}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="font-golos text-xs tracking-[0.3em] text-accent mb-3 uppercase">Правила студии</p>
-              <h2 className="font-cormorant text-4xl font-light mb-8">Правила посещения</h2>
-              <ul className="space-y-4">
-                {[
-                  "Приходите за 10–15 минут до начала занятия",
-                  "Занятие начинается без опоздавших, если прошло более 5 минут",
-                  "Телефоны переводить в беззвучный режим",
-                  "Чистые носки или босые ноги в зале",
-                  "Коврики дезинфицировать после занятия",
-                  "Предупреждайте инструктора о травмах и самочувствии",
-                  "Абонемент необходимо активировать в течение 14 дней",
-                  "Перенос занятия — не позднее чем за 4 часа",
-                ].map((rule) => (
-                  <li key={rule} className="flex items-start gap-3">
-                    <Icon name="ChevronRight" size={16} className="text-primary flex-shrink-0 mt-0.5" />
-                    <span className="font-golos text-sm font-light text-muted-foreground">{rule}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
         </div>
       </section>
@@ -623,152 +599,163 @@ export default function Index() {
       {/* CONTACTS */}
       <section id="contacts" className="py-24 bg-primary text-primary-foreground">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
             <div>
-              <p className="font-golos text-xs tracking-[0.3em] text-primary-foreground/60 mb-3 uppercase">Контакты</p>
-              <h2 className="font-cormorant text-5xl font-light text-primary-foreground mb-10">
-                Приходите к нам
-              </h2>
-              <div className="space-y-6">
+              <p className="font-golos text-xs tracking-[0.3em] opacity-50 uppercase mb-3">Контакты</p>
+              <h2 className="font-cormorant text-4xl md:text-5xl font-light mb-10">Найти студию</h2>
+              <div className="space-y-7">
                 {[
-                  { icon: "MapPin", title: "Адрес", text: "Москва, Чистопрудный бульвар, 12\nм. Чистые Пруды, 3 мин пешком" },
-                  { icon: "Clock", title: "Часы работы", text: "Пн–Пт: 07:00 – 22:00\nСб–Вс: 09:00 – 20:00" },
-                  { icon: "Phone", title: "Телефон", text: "+7 (495) 123-45-67" },
-                  { icon: "Mail", title: "Email", text: "hello@prana-yoga.ru" },
+                  { icon: "MapPin", title: "Адрес", text: "Москва, ул. Примерная, д. 12\nст. м. Арбатская" },
+                  { icon: "Phone", title: "Телефон", text: "+7 (999) 123-45-67" },
+                  { icon: "Mail", title: "Email", text: "julia@panfilova-yoga.ru" },
+                  { icon: "Clock", title: "Часы работы", text: "Пн–Пт: 8:00–21:00\nСб–Вс: 9:00–17:00" },
                 ].map((item) => (
                   <div key={item.title} className="flex items-start gap-4">
-                    <Icon name={item.icon} size={18} className="text-primary-foreground/60 flex-shrink-0 mt-0.5" fallback="Info" />
+                    <Icon name={item.icon} size={18} className="text-primary-foreground/50 flex-shrink-0 mt-0.5" fallback="Info" />
                     <div>
                       <div className="font-cormorant text-xl font-light mb-1">{item.title}</div>
-                      <div className="font-golos text-sm font-light text-primary-foreground/70 whitespace-pre-line">{item.text}</div>
+                      <div className="font-golos text-sm font-light opacity-70 whitespace-pre-line">{item.text}</div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="bg-primary-foreground/10 border border-primary-foreground/20 p-8">
-              <h3 className="font-cormorant text-2xl font-light text-primary-foreground mb-6">
-                Остались вопросы?
-              </h3>
-              <div className="space-y-4">
+
+            {/* Contact form */}
+            <div>
+              <div className="font-golos text-xs tracking-[0.2em] opacity-50 uppercase mb-6">Задать вопрос</div>
+              <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); }}>
                 <input
                   type="text"
                   placeholder="Ваше имя"
-                  className="w-full bg-transparent border border-primary-foreground/30 px-4 py-3 font-golos text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:border-primary-foreground/60"
+                  className="w-full bg-transparent border border-primary-foreground/20 px-4 py-3 font-golos text-sm font-light placeholder:text-primary-foreground/30 text-primary-foreground focus:outline-none focus:border-primary-foreground/60 transition-colors"
                 />
                 <input
                   type="tel"
                   placeholder="Телефон"
-                  className="w-full bg-transparent border border-primary-foreground/30 px-4 py-3 font-golos text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:border-primary-foreground/60"
+                  className="w-full bg-transparent border border-primary-foreground/20 px-4 py-3 font-golos text-sm font-light placeholder:text-primary-foreground/30 text-primary-foreground focus:outline-none focus:border-primary-foreground/60 transition-colors"
                 />
+                <div className="flex gap-2 flex-wrap">
+                  {["Женское здоровье", "Здоровая спина", "Раскрытие тела"].map((dir) => (
+                    <button
+                      key={dir}
+                      type="button"
+                      className="font-golos text-xs border border-primary-foreground/20 px-3 py-1.5 hover:border-primary-foreground/60 transition-colors text-primary-foreground/70 hover:text-primary-foreground"
+                    >
+                      {dir}
+                    </button>
+                  ))}
+                </div>
                 <textarea
-                  placeholder="Ваш вопрос"
+                  placeholder="Вопрос или пожелания"
                   rows={3}
-                  className="w-full bg-transparent border border-primary-foreground/30 px-4 py-3 font-golos text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:border-primary-foreground/60 resize-none"
+                  className="w-full bg-transparent border border-primary-foreground/20 px-4 py-3 font-golos text-sm font-light placeholder:text-primary-foreground/30 text-primary-foreground focus:outline-none focus:border-primary-foreground/60 transition-colors resize-none"
                 />
-                <button className="w-full bg-primary-foreground text-primary py-3 font-golos text-sm tracking-wide hover:opacity-90 transition-opacity">
-                  Отправить вопрос
+                <button
+                  type="submit"
+                  className="w-full font-golos text-sm bg-primary-foreground text-primary py-3.5 tracking-wide hover:opacity-90 transition-opacity"
+                >
+                  Отправить
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-border py-8">
+      <footer className="bg-foreground text-background/60 py-8">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="font-cormorant text-xl font-light tracking-[0.15em]">ПРАНА</div>
-          <div className="font-golos text-xs text-muted-foreground">
-            © 2024 Студия йоги «Прана». Все права защищены.
+          <div className="font-cormorant text-lg font-light tracking-wide text-background/80">
+            ЮЛИЯ ПАНФИЛОВА
           </div>
-          <div className="flex gap-6">
-            {["ВКонтакте", "Telegram", "Instagram"].map((s) => (
-              <a key={s} href="#" className="font-golos text-xs text-muted-foreground hover:text-foreground transition-colors">
-                {s}
-              </a>
-            ))}
+          <div className="font-golos text-xs tracking-wider">
+            Йога по методу Айенгара · Москва
+          </div>
+          <div className="font-golos text-xs">
+            © 2024
           </div>
         </div>
       </footer>
 
       {/* BOOKING MODAL */}
       {bookingOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-foreground/50">
-          <div className="bg-card border border-border w-full max-w-md p-8 animate-fade-in">
-            <div className="flex items-start justify-between mb-6">
-              <div>
-                <h3 className="font-cormorant text-2xl font-light">Запись на занятие</h3>
-                {selectedSlot && (
-                  <p className="font-golos text-sm font-light text-muted-foreground mt-1">
-                    {selectedSlot.day} · {selectedSlot.time} · {selectedSlot.class}
-                  </p>
-                )}
-              </div>
-              <button onClick={() => setBookingOpen(false)}>
-                <Icon name="X" size={20} className="text-muted-foreground hover:text-foreground transition-colors" />
-              </button>
-            </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-foreground/50 backdrop-blur-sm">
+          <div className="bg-background max-w-md w-full p-8 relative animate-fade-in-up shadow-2xl">
+            <button
+              onClick={() => setBookingOpen(false)}
+              className="absolute top-5 right-5 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Icon name="X" size={18} />
+            </button>
 
             {submitted ? (
               <div className="text-center py-8">
-                <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon name="Check" size={24} className="text-primary" />
+                <div className="text-accent mb-4">
+                  <Icon name="CheckCircle" size={40} className="mx-auto" />
                 </div>
-                <h4 className="font-cormorant text-2xl font-light mb-2">Заявка отправлена!</h4>
+                <h3 className="font-cormorant text-3xl font-light mb-2">Заявка принята</h3>
                 <p className="font-golos text-sm font-light text-muted-foreground">
-                  Мы свяжемся с вами в течение часа для подтверждения.
+                  Юлия свяжется с вами в ближайшее время для подтверждения.
                 </p>
                 <button
                   onClick={() => setBookingOpen(false)}
-                  className="mt-6 w-full bg-primary text-primary-foreground py-3 font-golos text-sm"
+                  className="mt-6 font-golos text-sm bg-primary text-primary-foreground px-8 py-3 hover:opacity-90 transition-opacity"
                 >
                   Закрыть
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="font-golos text-xs text-muted-foreground block mb-1">Ваше имя *</label>
-                  <input
-                    required
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="w-full border border-border px-4 py-3 font-golos text-sm focus:outline-none focus:border-primary/50 bg-background"
-                    placeholder="Как вас зовут?"
-                  />
+              <>
+                <div className="mb-6">
+                  <h3 className="font-cormorant text-2xl font-light mb-1">Запись на занятие</h3>
+                  {selectedSlot && (
+                    <div className="font-golos text-sm text-muted-foreground">
+                      {selectedSlot.day} · {selectedSlot.time} · {selectedSlot.class}
+                    </div>
+                  )}
                 </div>
-                <div>
-                  <label className="font-golos text-xs text-muted-foreground block mb-1">Телефон *</label>
-                  <input
-                    required
-                    value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="w-full border border-border px-4 py-3 font-golos text-sm focus:outline-none focus:border-primary/50 bg-background"
-                    placeholder="+7 (___) ___-__-__"
-                    type="tel"
-                  />
-                </div>
-                <div>
-                  <label className="font-golos text-xs text-muted-foreground block mb-1">Комментарий</label>
-                  <textarea
-                    value={form.comment}
-                    onChange={(e) => setForm({ ...form, comment: e.target.value })}
-                    className="w-full border border-border px-4 py-3 font-golos text-sm focus:outline-none focus:border-primary/50 bg-background resize-none"
-                    placeholder="Ваш уровень подготовки, вопросы..."
-                    rows={3}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-primary text-primary-foreground py-3 font-golos text-sm tracking-wide hover:opacity-90 transition-opacity"
-                >
-                  Записаться
-                </button>
-                <p className="font-golos text-xs text-muted-foreground text-center">
-                  Нажимая кнопку, вы соглашаетесь на обработку персональных данных
-                </p>
-              </form>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label className="font-golos text-xs text-muted-foreground tracking-wide uppercase block mb-1.5">Имя</label>
+                    <input
+                      type="text"
+                      required
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      className="w-full border border-border px-4 py-3 font-golos text-sm focus:outline-none focus:border-primary transition-colors bg-background"
+                      placeholder="Как вас зовут"
+                    />
+                  </div>
+                  <div>
+                    <label className="font-golos text-xs text-muted-foreground tracking-wide uppercase block mb-1.5">Телефон</label>
+                    <input
+                      type="tel"
+                      required
+                      value={form.phone}
+                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                      className="w-full border border-border px-4 py-3 font-golos text-sm focus:outline-none focus:border-primary transition-colors bg-background"
+                      placeholder="+7 (___) ___-__-__"
+                    />
+                  </div>
+                  <div>
+                    <label className="font-golos text-xs text-muted-foreground tracking-wide uppercase block mb-1.5">Комментарий</label>
+                    <textarea
+                      rows={2}
+                      value={form.comment}
+                      onChange={(e) => setForm({ ...form, comment: e.target.value })}
+                      className="w-full border border-border px-4 py-3 font-golos text-sm focus:outline-none focus:border-primary transition-colors bg-background resize-none"
+                      placeholder="Травмы, особенности здоровья..."
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full font-golos text-sm bg-primary text-primary-foreground py-3.5 tracking-wide hover:opacity-90 transition-opacity mt-2"
+                  >
+                    Отправить заявку
+                  </button>
+                </form>
+              </>
             )}
           </div>
         </div>

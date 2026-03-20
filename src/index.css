@@ -4,35 +4,35 @@
 
 @layer base {
   :root {
-    --background: 40 30% 97%;
-    --foreground: 25 20% 15%;
+    --background: 40 20% 97%;
+    --foreground: 25 15% 12%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 25 20% 15%;
+    --card: 36 25% 95%;
+    --card-foreground: 25 15% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 25 20% 15%;
+    --popover-foreground: 25 15% 12%;
 
-    --primary: 20 25% 30%;
-    --primary-foreground: 40 30% 97%;
+    --primary: 22 18% 22%;
+    --primary-foreground: 40 20% 97%;
 
-    --secondary: 35 25% 92%;
-    --secondary-foreground: 25 20% 15%;
+    --secondary: 36 20% 90%;
+    --secondary-foreground: 25 15% 12%;
 
-    --muted: 35 20% 94%;
-    --muted-foreground: 25 15% 50%;
+    --muted: 36 15% 93%;
+    --muted-foreground: 25 10% 48%;
 
-    --accent: 18 40% 55%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 22 35% 42%;
+    --accent-foreground: 40 20% 97%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 35 20% 88%;
-    --input: 35 20% 88%;
-    --ring: 20 25% 30%;
+    --border: 35 18% 86%;
+    --input: 35 18% 86%;
+    --ring: 22 18% 22%;
 
-    --radius: 0.25rem;
+    --radius: 0rem;
   }
 }
 
@@ -43,7 +43,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Golos Text", sans-serif;
+    font-family: "Raleway", sans-serif;
     font-weight: 300;
   }
 
@@ -51,41 +51,37 @@
   h2,
   h3,
   h4 {
-    font-family: "Cormorant", serif;
+    font-family: "Cormorant Garamond", serif;
   }
 }
 
 @layer utilities {
   .font-cormorant {
-    font-family: "Cormorant", serif;
+    font-family: "Cormorant Garamond", serif;
   }
-  .font-golos {
-    font-family: "Golos Text", sans-serif;
+  .font-raleway {
+    font-family: "Raleway", sans-serif;
   }
 }
 
-/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
 ::-webkit-scrollbar-track {
   background: hsl(var(--background));
 }
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--border));
-  border-radius: 2px;
 }
 
-/* Fade-in animation */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -102,12 +98,37 @@ html {
   }
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.7s ease-out forwards;
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
+@keyframes lineGrow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
 .animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
+  animation: fadeIn 0.7s ease-out forwards;
+}
+.animate-slide-in-left {
+  animation: slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.animate-line-grow {
+  animation: lineGrow 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .delay-100 {
@@ -127,4 +148,14 @@ html {
 }
 .delay-600 {
   animation-delay: 0.6s;
+}
+.delay-700 {
+  animation-delay: 0.7s;
+}
+.delay-800 {
+  animation-delay: 0.8s;
+}
+
+.opacity-0-init {
+  opacity: 0;
 }
