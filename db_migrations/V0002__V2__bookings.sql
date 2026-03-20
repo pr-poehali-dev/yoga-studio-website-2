@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS t_p74156658_yoga_studio_website_.bookings (id SERIAL PRIMARY KEY, class_id INT NOT NULL REFERENCES t_p74156658_yoga_studio_website_.classes(id), name VARCHAR(100) NOT NULL, phone VARCHAR(30) NOT NULL, comment TEXT, status VARCHAR(20) NOT NULL DEFAULT 'active', created_at TIMESTAMPTZ NOT NULL DEFAULT NOW())
